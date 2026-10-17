@@ -1,14 +1,10 @@
-
 name: Build AutoClicker
 
 on:
   workflow_dispatch:
   push:
-    tags:
-      - "v*"
-
-permissions:
-  contents: write
+    branches:
+      - main
 
 jobs:
   build:
@@ -24,22 +20,13 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt
 
       - name: Build executable
-       run: pyinstaller --clean --onefile --windowed --collect-all customtkinter --name AutoClicker main.py
+        run: python -m PyInstaller --clean --onefile --windowed --collect-all customtkinter --name AutoClicker main.py
 
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: AutoClicker-Windows
           path: dist/AutoClicker.exe
-
-      - name: Publish GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/AutoClicker.exe
-          generate_release_notes: true
