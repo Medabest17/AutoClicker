@@ -114,7 +114,3 @@ tk.Label(
 threading.Thread(target=click_loop, daemon=True).start()
 listener = keyboard.Listener(on_press=key_pressed)
 listener.start()
-root.protocol("WM_DELETE_WINDOW", close)
-root.mainloop()
-closing.set()
-listener.stop()
