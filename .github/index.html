@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RANSOM | Gaming Tools</title>
+<style>
+:root{--red:#ff304b;--bg:#09090d;--panel:#13131b;--muted:#9292a5;--line:#292934}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#f6f6fb;font-family:Arial,sans-serif}
+header{padding:24px 6%;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:30px;font-weight:900;letter-spacing:4px}.logo span{color:var(--red)}
+.tag{color:var(--muted);font-size:12px;letter-spacing:2px}
+main{max-width:1100px;margin:auto;padding:32px 18px}
+.hero{padding:30px 0 24px}.hero h1{font-size:clamp(34px,7vw,60px);margin:0 0 12px}.hero h1 span{color:var(--red);text-shadow:0 0 28px #ff304b55}
+p{color:var(--muted);line-height:1.6}
+nav{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0 28px}
+button,input,select{font:inherit}
+button{background:#211018;color:white;border:1px solid #56202d;border-radius:9px;padding:11px 15px;cursor:pointer}
+button:hover{border-color:var(--red);background:#32121d}
+button.primary{background:var(--red);color:white;border-color:var(--red);font-weight:bold}
+button:disabled{opacity:.5;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:21px;margin-bottom:16px}
+.card h2{margin-top:0;font-size:19px}.muted{color:var(--muted)}
+.big{font-size:42px;font-weight:900;color:var(--red);margin:12px 0}
+.stat{background:#0c0c12;border:1px solid var(--line);border-radius:10px;padding:15px}
+.stat strong{display:block;font-size:25px;margin-top:7px}
+label{display:block;color:var(--muted);font-size:13px;margin:13px 0 6px}
+input,select{width:100%;padding:11px;background:#09090d;border:1px solid var(--line);border-radius:8px;color:white}
+.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1;min-width:100px}
+.clickzone{width:100%;min-height:145px;font-size:24px;font-weight:bold;letter-spacing:2px}
+.badge{display:inline-block;color:#ff8b9a;background:#30121b;border:1px solid #60202f;border-radius:6px;padding:5px 8px;font-size:11px;font-weight:bold;letter-spacing:1px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
+#notice{color:#ff8b9a;min-height:20px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">RAN<span>SOM</span></div>
+  <div class="tag">GAMING TOOLS // V1.0</div>
+</header>
+<main>
+<section class="hero">
+  <div class="badge">SYSTEM ONLINE</div>
+  <h1>ENTER THE <span>RANSOM</span></h1>
+  <p>Your gaming setup. Your stats. Your rules.<br>Tools for players who want to level up.</p>
+</section>
+
+<nav>
+<button onclick="showSection('clicker')">Click Tester</button>
+<button onclick="showSection('analytics')">Analytics</button>
+<button onclick="showSection('presets')">Presets</button>
+<button onclick="showSection('password')">Password Lab</button>
+<button onclick="showSection('leaderboard')">Leaderboard</button>
+</nav>
+
+<section id="clicker" class="section">
+<div class="grid">
+<div class="card">
+<h2>⚡ CLICK TESTER</h2>
+<p>Test your clicking speed. Click the button as fast as you can!</p>
+<div class="row">
+<div class="stat"><span class="muted">TIME LEFT</span><strong id="time">10.0s</strong></div>
+<div class="stat"><span class="muted">YOUR CPS</span><strong id="cps">0.0</strong></div>
+</div>
+<p id="clickCount">Clicks: 0</p>
+<button id="clickButton" class="primary clickzone" onclick="clickTest()">CLICK TO START</button>
+<div class="row" style="margin-top:10px">
+<button onclick="startTest(5)">5 seconds</button>
+<button onclick="startTest(10)">10 seconds</button>
+<button onclick="startTest(30)">30 seconds</button>
+</div>
+<p id="testMessage">Choose a test length, then start clicking!</p>
+</div>
+<div class="card">
+<h2>📊 YOUR RECORDS</h2>
+<div class="stat"><span class="muted">BEST TEST CPS</span><strong id="bestCps">0.0</strong></div>
+<div class="stat" style="margin-top:10px"><span class="muted">ALL-TIME TEST CLICKS</span><strong id="allClicks">0</strong></div>
+<p class="muted">These are clicks from this website's test, not clicks from your desktop AutoClicker.</p>
+</div>
+</div>
+</section>
+
+<section id="analytics" class="section" hidden>
+<div class="card">
+<h2>📈 PERSONAL ANALYTICS</h2>
+<p>Your stats are saved in this browser on this device.</p>
+<div class="grid">
+<div class="stat"><span class="muted">TOTAL TESTS</span><strong id="totalTests">0</strong></div>
+<div class="stat"><span class="muted">TOTAL CLICKS</span><strong id="analyticsClicks">0</strong></div>
+<div class="stat"><span class="muted">BEST CPS</span><strong id="analyticsBest">0.0</strong></div>
+</div>
+<hr>
+<h3>Recent sessions</h3>
+<div id="history" class="muted">No tests yet. Try the Click Tester first!</div>
+<button onclick="clearStats()">Reset my local stats</button>
+</div>
+</section>
+
+<section id="presets" class="section" hidden>
+<div class="card">
+<h2>⚙️ MY PRESETS</h2>
+<p>Save your preferred test length and notes in this browser.</p>
+<label>Preset name</label><input id="presetName" maxlength="40" placeholder="e.g. Warm-up">
+<label>Test duration</label>
+<select id="presetDuration"><option value="5">5 seconds</option><option value="10" selected>10 seconds</option><option value="30">30 seconds</option></select>
+<label>Notes (optional)</label><input id="presetNotes" maxlength="120" placeholder="My usual setup">
+<button class="primary" onclick="savePreset()">Save preset</button>
+<div id="presetList" style="margin-top:18px"></div>
+</div>
+</section>
+
+<section id="password" class="section" hidden>
+<div class="card">
+<h2>🔐 PASSWORD LAB</h2>
+<p>Generate a strong password or check its strength. Everything happens locally in your browser; passwords are not uploaded.</p>
+<label>Password to check</label>
+<input id="passwordInput" type="password" autocomplete="new-password" placeholder="Enter a password">
+<div class="row" style="margin-top:10px">
+<button onclick="checkPassword()">Check strength</button>
+<button onclick="togglePassword()">Show / hide</button>
+</div>
+<p id="passwordResult">Your password strength will appear here.</p>
+<hr>
+<label>Generated password length</label>
+<select id="passLength"><option>12</option><option selected>16</option><option>20</option><option>24</option><option>32</option></select>
+<button class="primary" onclick="generatePassword()">Generate secure password</button>
+<div class="row" style="margin-top:10px">
+<input id="generatedPassword" readonly placeholder="Your generated password">
+<button onclick="copyPassword()">Copy</button>
+</div>
+<p class="muted">Never share passwords. A strength check is an estimate, not a guarantee.</p>
+</div>
+</section>
+
+<section id="leaderboard" class="section" hidden>
+<div class="card" style="text-align:center;padding:45px 20px">
+<div style="font-size:48px">🏆</div>
+<div class="badge">FEATURE LOCKED</div>
+<h2 style="font-size:30px;margin:18px 0">LEADERBOARD</h2>
+<div class="big">COMING SOON</div>
+<p>Accounts aren't ready yet. We're building the rest of RANSOM first.</p>
+<p>When accounts are added, we'll work on online rankings and opt-in public profiles.</p>
+</div>
+</section>
+<p id="notice" role="status"></p>
+</main>
+<footer>RANSOM © 2026 · BUILT FOR GAMERS · V1.0</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+let stats=read('ransomStats',{tests:0,clicks:0,best:0,history:[]});
+let presets=read('ransomPresets',[]);
+let remaining=10,clicks=0,active=false,started=false,interval=null,endAt=0;
+
+function showSection(id){
+ document.querySelectorAll('.section').forEach(s=>s.hidden=true);
+ $(id).hidden=false;
+ $('notice').textContent='';
+ if(id==='analytics')renderStats();
+ if(id==='presets')renderPresets();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function startTest(seconds){
+ clearInterval(interval);remaining=seconds;clicks=0;active=false;started=true;
+ endAt=Date.now()+seconds*1000;
+ $('time').textContent=seconds.toFixed(1)+'s';$('cps').textContent='0.0';
+ $('clickCount').textContent='Clicks: 0';
+ $('clickButton').textContent='CLICK TO START';
+ $('testMessage').textContent='Test ready — click the big button!';
+ // First click begins the countdown.
+}
+function clickTest(){
+ if(!started){startTest(10)}
+ if(!active){
+  active=true;started=false;endAt=Date.now()+remaining*1000;
+  $('clickButton').textContent='CLICK!';
+  interval=setInterval(tick,50);
+ }
+ if(remaining>0&&active){clicks++;$('clickCount').textContent='Clicks: '+clicks;$('cps').textContent=(clicks/Math.max(.05,(Date.now()-(endAt-remaining*1000))/1000)).toFixed(1)}
+}
+function tick(){
+ remaining=Math.max(0,(endAt-Date.now())/1000);
+ $('time').textContent=remaining.toFixed(1)+'s';
+ $('cps').textContent=(clicks/Math.max(.1,(Number($('testMessage').dataset.duration)||10)-remaining)).toFixed(1);
+ if(remaining<=0){
+  clearInterval(interval);active=false;
+  const duration=Number($('testMessage').dataset.duration)||10;
+  finishTest(duration);
+ }
+}
+// Replace startTest with duration-safe timer.
+startTest=function(seconds){
+ clearInterval(interval);remaining=seconds;clicks=0;active=false;started=true;
+ $('testMessage').dataset.duration=seconds;
+ $('time').textContent=seconds.toFixed(1)+'s';$('cps').textContent='0.0';
+ $('clickCount').textContent='Clicks: 0';$('clickButton').textContent='CLICK TO START';
+ $('testMessage').textContent='Ready for a '+seconds+'-second test. Click the big button to begin!';
+};
+function finishTest(duration){
+ const result=clicks/duration;
+ stats.tests++;stats.clicks+=clicks;stats.best=Math.max(stats.best,result);
+ stats.history.unshift({clicks,cps:result.toFixed(2),duration,date:new Date().toLocaleString()});
+ stats.history=stats.history.slice(0,10);write('ransomStats',stats);
+ $('cps').textContent=result.toFixed(2);$('clickButton').textContent='TEST FINISHED';
+ $('testMessage').textContent=`Result: ${clicks} clicks · ${result.toFixed(2)} CPS`;
+ renderStats();
+}
+function renderStats(){
+ $('bestCps').textContent=Number(stats.best).toFixed(2);$('allClicks').textContent=stats.clicks;
+ $('totalTests').textContent=stats.tests;$('analyticsClicks').textContent=stats.clicks;$('analyticsBest').textContent=Number(stats.best).toFixed(2);
+ $('history').innerHTML=stats.history.length?stats.history.map(x=>`<p>${x.date}<br><strong>${x.clicks} clicks</strong> · ${x.cps} CPS · ${x.duration}s</p>`).join(''):'No tests yet. Try the Click Tester first!';
+}
+function clearStats(){
+ if(confirm('Delete all local RANSOM test stats?')){
+  stats={tests:0,clicks:0,best:0,history:[]};write('ransomStats',stats);renderStats();renderStats();
+ }
+}
+function savePreset(){
+ const name=$('presetName').value.trim();
+ if(!name){$('notice').textContent='Enter a preset name first.';return}
+ presets.push({id:Date.now(),name,duration:Number($('presetDuration').value),notes:$('presetNotes').value.trim()});
+ write('ransomPresets',presets);$('presetName').value='';$('presetNotes').value='';renderPresets();$('notice').textContent='Preset saved!';
+}
+function renderPresets(){
+ $('presetList').innerHTML=presets.length?presets.map(p=>`<div class="stat" style="margin:10px 0"><strong>${escapeHtml(p.name)}</strong><p>${p.duration}s · ${escapeHtml(p.notes||'No notes')}</p><button onclick="usePreset(${p.id})">Use preset</button> <button onclick="deletePreset(${p.id})">Delete</button></div>`).join(''):'<p class="muted">No presets saved yet.</p>';
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function usePreset(id){const p=presets.find(x=>x.id===id);if(p){showSection('clicker');startTest(p.duration)}}
+function deletePreset(id){presets=presets.filter(x=>x.id!==id);write('ransomPresets',presets);renderPresets()}
+function checkPassword(){
+ const p=$('passwordInput').value;let score=0;
+ if(p.length>=12)score++;if(p.length>=16)score++;
+ if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;
+ if(/[0-9]/.test(p))score++;if(/[^A-Za-z0-9]/.test(p))score++;
+ const levels=['Very weak','Weak','Fair','Good','Strong','Very strong'];
+ $('passwordResult').textContent=p?`Estimated strength: ${levels[score]} (${score}/5 checks passed).`:'Enter a password to check it.';
+}
+function togglePassword(){$('passwordInput').type=$('passwordInput').type==='password'?'text':'password'}
+function generatePassword(){
+ const n=Number($('passLength').value),chars='abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%*-_+';
+ const bytes=new Uint32Array(n);crypto.getRandomValues(bytes);
+ let out='';for(let i=0;i<n;i++)out+=chars[bytes[i]%chars.length];
+ $('generatedPassword').value=out;
+}
+async function copyPassword(){
+ const value=$('generatedPassword').value;if(!value)return;
+ try{await navigator.clipboard.writeText(value);$('notice').textContent='Password copied!'}catch{$('generatedPassword').select();document.execCommand('copy');$('notice').textContent='Copy attempted.'}
+}
+renderStats();
+</script>
+</body>
+</html>
